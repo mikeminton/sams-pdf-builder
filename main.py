@@ -1,5 +1,5 @@
 import os
-import shutil
+import shutil  # Import shutil module
 import pikepdf
 import openpyxl
 from PIL import Image
@@ -12,6 +12,11 @@ from reportlab.lib.pagesizes import letter
 Image.MAX_IMAGE_PIXELS = None  # This will disable the limit
 
 def clear_directory(directory):
+    # Create the directory if it doesn't exist
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        print(f"Directory {directory} created.")
+    
     # Deletes all files in the given directory
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
@@ -27,6 +32,13 @@ def optimize_pdf(input_pdf, output_pdf):
     with pikepdf.open(input_pdf) as pdf:
         pdf.save(output_pdf, compress_streams=True)
 
+def clear_terminal(): 
+    # Check if the operating system is Windows
+    if os.name == 'nt':
+        os.system('cls')  # Command to clear terminal in Windows
+    else:
+        os.system('clear')  # Command to clear terminal in Linux/Mac
+        
 def convert_image_to_pdf(image_path): 
     img = Image.open(image_path)
     
@@ -54,7 +66,7 @@ def convert_xlsx_to_pdf(xlsx_path):
 
 def main(folder_path, output_folder, output_filename): 
     # Clear the directory if needed
-    clear_directory(folder_path)
+    clear_directory(output_folder)
 
     # Create a PdfMerger object
     merger = PdfMerger()
@@ -114,7 +126,8 @@ def main(folder_path, output_folder, output_filename):
     print("PDF building has been completed successfully!")
 
 if __name__ == "__main__":
-   location_files_to_import   = r"C:\bot\pdf-builder\files-to-import"
-   location_folder_to_export  = r"C:\bot\pdf-builder"
-   filename_exported_file     = "pdf_builder-export.pdf"
-   main(location_files_to_import, location_folder_to_export, filename_exported_file)
+    clear_terminal()
+    location_files_to_import   = r"C:\bot\pdf-builder\files-to-import"
+    location_folder_to_export  = r"C:\bot\pdf-builder\output"
+    filename_exported_file     = "pdf-builder-export.pdf"
+    main(location_files_to_import, location_folder_to_export, filename_exported_file)
