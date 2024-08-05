@@ -13,13 +13,13 @@ import textwrap
 Image.MAX_IMAGE_PIXELS = None
 
 def clear_directory(directory)   : 
-if  not os.path.exists(directory): 
+    if  not os.path.exists(directory): 
         os.makedirs(directory)
         print(f"Directory {directory} created.")
     for filename in os.listdir(directory): 
         file_path = os.path.join(directory, filename)
-           try                                                   : 
-        if os.path.isfile(file_path) or os.path.islink(file_path): 
+        try                                                   : 
+            if os.path.isfile(file_path) or os.path.islink(file_path): 
                 os.unlink(file_path)
             elif os.path.isdir(file_path): 
                 shutil.rmtree(file_path)
@@ -27,8 +27,8 @@ if  not os.path.exists(directory):
             print(f'Failed to delete {file_path}. Reason: {e}')
 
 def  optimize_pdf(input_pdf, output_pdf): 
-with pikepdf.open(input_pdf) as pdf     : 
-    pdf.save(output_pdf, compress_streams=True)
+    with pikepdf.open(input_pdf) as pdf     : 
+        pdf.save(output_pdf, compress_streams=True)
 
 def clear_terminal(): 
     os.system('cls' if os.name == 'nt' else 'clear')
