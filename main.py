@@ -1,4 +1,5 @@
 import os
+import shutil
 import pikepdf
 import openpyxl
 from PIL import Image
