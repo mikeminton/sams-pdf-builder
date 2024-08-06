@@ -126,5 +126,5 @@ if __name__ == "__main__":
     clear_terminal()
     location_files_to_import  = r"C:\bot\pdf-builder\files-to-import"
     location_folder_to_export = r"C:\bot\pdf-builder\output"
-    filename_exported_file    = "pdf-builder-export.pdf"
+    filename_exported_file    = "_CREATED-PDF-FILE.PDF"
     main(location_files_to_import, location_folder_to_export, filename_exported_file)
