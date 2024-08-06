@@ -42,34 +42,40 @@ def convert_image_to_pdf(image_path):
     return pdf_path
 
 def convert_xlsx_to_pdf(xlsx_path): 
-    wb       = openpyxl.load_workbook(xlsx_path)
-    sheet    = wb.active
-    pdf_path = xlsx_path.rsplit('.', 1)[0] + '.pdf'
-    c        = canvas.Canvas(pdf_path, pagesize=letter)
-    width, height  = letter
-    text     = c.beginText(40, height - 40)
-    for row in sheet.iter_rows(values_only=True): 
-        line = ', '.join([str(cell) for cell in row if cell is not None])
-        text.textLine(line)
-    c.drawText(text)
-    c.save()
-    return pdf_path
+    try                           : 
+        wb       = openpyxl.load_workbook(xlsx_path, data_only=True)  # Use data_only to avoid formula errors
+        sheet    = wb.active
+        pdf_path = xlsx_path.rsplit('.', 1)[0] + '.pdf'
+        c        = canvas.Canvas(pdf_path, pagesize=letter)
+        width, height  = letter
+        text     = c.beginText(40, height - 40)
+        for row in sheet.iter_rows(values_only=True):
+            line = ', '.join([str(cell) for cell in row if cell is not None])
+            text.textLine(line)
 
-def  convert_text_to_pdf(text_path)                : 
+        c.drawText(text)
+        c.save()
+        return pdf_path
+
+    except Exception as e:
+        print(f"Error converting {xlsx_path} to PDF: {e}")
+        return None  # Return None or handle error as needed
+
+def convert_text_to_pdf(text_path)                : 
     with open(text_path, 'r', encoding='utf-8') as file: 
         content      = file.read()
-    pdf_path     = text_path.rsplit('.', 1)[0] + '.pdf'
-    c            = canvas.Canvas(pdf_path, pagesize=letter)
-    width, height      = letter
-    margin       = 40
-    text_width   = width - 2 * margin
-    text         = c.beginText(margin, height - margin)
-    wrapper      = textwrap.TextWrapper(width=80)  # Adjust width according to the font and page size
-    wrapped_text = wrapper.wrap(content)
-    for line in wrapped_text: 
-        text.textLine(line)
-    c.drawText(text)
-    c.save()
+        pdf_path     = text_path.rsplit('.', 1)[0] + '.pdf'
+        c            = canvas.Canvas(pdf_path, pagesize=letter)
+        width, height      = letter
+        margin       = 40
+        text_width   = width - 2 * margin
+        text         = c.beginText(margin, height - margin)
+        wrapper      = textwrap.TextWrapper(width=80)  # Adjust width according to the font and page size
+        wrapped_text = wrapper.wrap(content)
+        for line in wrapped_text: 
+            text.textLine(line)
+        c.drawText(text)
+        c.save()
     return pdf_path
 
 def main(folder_path, output_folder, output_filename): 
