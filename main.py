@@ -1,13 +1,14 @@
 import os
 import shutil
-import pikepdf
-import openpyxl
-from PIL import Image
-from docx2pdf import convert
-from PyPDF2 import PdfMerger
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
 import textwrap
+
+import openpyxl
+import pikepdf
+from docx2pdf import convert
+from PIL import Image
+from PyPDF2 import PdfMerger
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 # Increase the decompression bomb size limit
 Image.MAX_IMAGE_PIXELS = None
